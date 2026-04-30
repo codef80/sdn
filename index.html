@@ -70,7 +70,7 @@
       --pattern-size-desktop: 620px;
       --pattern-size-mobile: 620px;
       --card-gradient: linear-gradient(135deg, rgba(195,208,69,0.22) 0%, rgba(170,183,49,0.14) 24%, rgba(255,255,255,0.05) 56%, rgba(195,208,69,0.14) 100%);
-      --top-gallery-speed: 8s; /* التحكم بسرعة معرض الصور: قلل الرقم = أسرع */
+      --top-gallery-speed: 10s; /* التحكم بسرعة معرض الصور: قلل الرقم = أسرع */
       --gallery-tv-width: 460px;
     }
 
@@ -591,37 +591,46 @@
     /* ------------------------------
        Top Gallery | imags1
        ------------------------------ */
-    .gallery-shell {
-      padding: 18px;
-      overflow: hidden;
-    }
+.gallery-shell {
+  padding: 14px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  direction: ltr;
+}
 
-    .gallery-marquee {
-      display: flex;
-      gap: 16px;
-      width: max-content;
-      animation: marqueeMove var(--top-gallery-speed) linear infinite;
-      will-change: transform;
-    }
+.gallery-marquee {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  direction: ltr;
+  animation: marqueeMove var(--top-gallery-speed) linear infinite;
+  will-change: transform;
+}
 
-    .gallery-shell:hover .gallery-marquee {
-      animation-play-state: paused;
-    }
+.gallery-shell:hover .gallery-marquee {
+  animation-play-state: paused;
+}
 
-    @keyframes marqueeMove {
-      from { transform: translateX(0); }
-      to { transform: translateX(50%); }
-    }
+@keyframes marqueeMove {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
 
-    .gallery-item {
-      width: var(--gallery-tv-width);
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: 24px;
-      border: 1px solid rgba(195,208,69,0.12);
-      background: rgba(255,255,255,0.03);
-      box-shadow: var(--shadow-md);
-    }
+.gallery-item {
+  flex: 0 0 auto;
+  width: clamp(260px, 38vw, var(--gallery-tv-width));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(195,208,69,0.12);
+  background: rgba(255,255,255,0.03);
+  box-shadow: var(--shadow-md);
+}
 
     .gallery-item img {
       width: 100%;
@@ -1077,12 +1086,18 @@
       }
 
       .gallery-shell {
-        padding: 12px;
-      }
+  padding: 10px;
+  border-radius: 24px;
+}
 
-      .gallery-item {
-        width: min(320px, 82vw);
-      }
+.gallery-marquee {
+  gap: 12px;
+}
+
+.gallery-item {
+  width: 78vw;
+  border-radius: 18px;
+}
 
       .services-grid,
       .why-grid,
@@ -1121,7 +1136,7 @@
     <div class="navbar-inner">
       <a class="brand" href="#top" aria-label="سدن استديو">
         <span class="brand-logo">
-          <img src="https://i.ibb.co/8ngyzGVq/image.png" alt="شعار سدن استديو" />
+          <img src="https://i.ibb.co/KzXy9jqs/image.png" alt="شعار سدن استديو" />
         </span>
         <span class="brand-text">
           <span class="brand-title">سدن استديو</span>
@@ -1145,7 +1160,7 @@
   <header class="hero" id="top">
     <div class="container hero-grid">
       <div class="hero-copy reveal">
-        <div class="hero-main-logo-wrap"><img class="hero-main-logo" src="https://i.ibb.co/8ngyzGVq/image.png" alt="شعار سدن استديو" /></div>
+        <div class="hero-main-logo-wrap"><img class="hero-main-logo" src="https://i.ibb.co/KzXy9jqs/image.png" alt="شعار سدن استديو" /></div>
         <h1>نحوّل الفكرة إلى <span class="accent">حضور</span><br></h1>
         <p>
           في سدن استديو نصنع حلولًا تسويقية وبصرية تمنح المشاريع والعلامات التجارية حضورًا واضحًا،
@@ -1158,15 +1173,12 @@
   </header>
 
   <section id="portfolio-file">
-    <div class="container">
-      <div class="section-head reveal">
-        <div>
-
-      <div class="glass-card gallery-shell reveal">
-        <div class="gallery-marquee" id="topGallery"></div>
-      </div>
+  <div class="container">
+    <div class="glass-card gallery-shell reveal">
+      <div class="gallery-marquee" id="topGallery"></div>
     </div>
-  </section>
+  </div>
+</section>
 
   <section id="about">
     <div class="container">
@@ -1542,7 +1554,7 @@ bottomFallback: [
         return;
       }
 
-      const duplicated = images.length < 6 ? [...images, ...images, ...images, ...images] : [...images, ...images];
+      const duplicated = [...images, ...images, ...images, ...images];
       const fragment = document.createDocumentFragment();
 
       duplicated.forEach((src, index) => {
