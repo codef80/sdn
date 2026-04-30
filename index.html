@@ -1121,7 +1121,7 @@
     <div class="navbar-inner">
       <a class="brand" href="#top" aria-label="سدن استديو">
         <span class="brand-logo">
-          <img src="https://i.ibb.co/hJFLGF29/image.png" alt="شعار سدن استديو" />
+          <img src="https://i.ibb.co/8ngyzGVq/image.png" alt="شعار سدن استديو" />
         </span>
         <span class="brand-text">
           <span class="brand-title">سدن استديو</span>
@@ -1145,7 +1145,7 @@
   <header class="hero" id="top">
     <div class="container hero-grid">
       <div class="hero-copy reveal">
-        <div class="hero-main-logo-wrap"><img class="hero-main-logo" src="https://i.ibb.co/7d3RD2XG/002.jpg" alt="شعار سدن استديو" /></div>
+        <div class="hero-main-logo-wrap"><img class="hero-main-logo" src="https://i.ibb.co/8ngyzGVq/image.png" alt="شعار سدن استديو" /></div>
         <h1>نحوّل الفكرة إلى <span class="accent">حضور</span><br></h1>
         <p>
           في سدن استديو نصنع حلولًا تسويقية وبصرية تمنح المشاريع والعلامات التجارية حضورًا واضحًا،
@@ -1359,17 +1359,28 @@
 
      github: {
   owner: 'codef80',
-  repo: 'sdnst',
+  repo: 'sdn',
   branch: 'main',
-  repoCandidates: ['sdnst.com', 'sdnstudio.github.io'],
+  repoCandidates: ['sdn'],
   branchCandidates: ['main']
 },
       
       topFolder: 'imags1',
       bottomFolder: 'imags2',
 
-      topFallback: [],
-      bottomFallback: []
+      topFallback: [
+  './imags1/Untitled-1-08.jpg',
+  './imags1/Untitled-1-12.jpg',
+  './imags1/Untitled-1-20.jpg'
+],
+
+bottomFallback: [
+  './imags2/Untitled-1-08.jpg',
+  './imags2/Untitled-1-12.jpg',
+  './imags2/Untitled-1-20.jpg',
+  './imags2/Untitled-1-24.jpg',
+  './imags2/Untitled-1-28.jpg'
+]
     };
 
     const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif'];
@@ -1512,28 +1523,14 @@
       }
     }
 
-    async function fetchFolderImages(folderName, fallback = []) {
-      const cleanFolder = folderName.replace(/^\/+|\/+$/g, '');
-      const candidates = getRepoCandidates();
+   async function fetchFolderImages(folderName, fallback = []) {
+  if (fallback.length) {
+    return uniqueArray(fallback);
+  }
 
-      for (const candidate of candidates) {
-        const tree = await fetchRepoTree(candidate);
-        if (!tree.length) continue;
-
-        const images = tree
-          .filter((item) => item.type === 'blob' && item.path && item.path.startsWith(`${cleanFolder}/`) && isImageFile(item.path))
-          .map((item) => `https://raw.githubusercontent.com/${candidate.owner}/${candidate.repo}/${candidate.branch}/${item.path}`);
-
-        if (images.length) {
-          console.info(`تم جلب صور ${cleanFolder} من ${candidate.owner}/${candidate.repo}@${candidate.branch}`);
-          return uniqueArray(images);
-        }
-      }
-
-      if (fallback.length) return uniqueArray(fallback);
-      return await discoverLocalImages(cleanFolder);
-    }
-
+  const cleanFolder = folderName.replace(/^\/+|\/+$/g, '');
+  return await discoverLocalImages(cleanFolder);
+}
     function renderTopGallery(images) {
       const target = document.getElementById('topGallery');
       if (!target) return;
