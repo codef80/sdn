@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>سدن استديو | Sadan Studio</title>
+  <meta name="description" content="سدن استديو - حلول تسويقية وبصرية تصنع حضورًا مؤثرًا للمشاريع والعلامات التجارية." />
+
+  <style>
+    /* ------------------------------
+       Fonts | ضع ملفات الخط داخل مجلد expo بجانب index.html
+       ------------------------------ */
+    @font-face {
+      font-family: 'Expo Arabic';
+      src: url('./expo/ExpoArabic-Light.ttf') format('truetype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Expo Arabic';
+      src: url('./expo/ExpoArabic-Book.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Expo Arabic';
+      src: url('./expo/ExpoArabic-Medium.ttf') format('truetype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Expo Arabic';
+      src: url('./expo/ExpoArabic-SemiBold.ttf') format('truetype');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Expo Arabic';
+      src: url('./expo/ExpoArabic-Bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --color-bg: #000000;
+      --color-primary: #000000;
+      --color-accent: #c5d14d;
+      --color-accent-soft: #d9e47a;
+      --color-white: #ffffff;
+      --color-text: rgba(255,255,255,0.92);
+      --color-text-soft: rgba(255,255,255,0.66);
+      --color-line: rgba(197, 209, 77, 0.18);
+      --color-line-strong: rgba(197, 209, 77, 0.38);
+      --color-card: rgba(255,255,255,0.045);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --shadow-xl: 0 28px 80px rgba(0,0,0,0.32);
+      --shadow-md: 0 18px 40px rgba(0,0,0,0.22);
+      --pattern-url: url('https://i.ibb.co/TxVyCKdq/Portfolio-pdf.png');
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Expo Arabic', system-ui, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.8;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: -45vmax;
+      background-image: var(--pattern-url);
+      background-repeat: repeat;
+      background-size: 430px auto;
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: -1;
+      animation: patternDrift 70s linear infinite;
+      transform: translate3d(0,0,0);
+      will-change: transform;
+    }
+
+    @keyframes patternDrift {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(140px, -140px, 0); }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin-inline: auto;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ------------------------------
+       Navbar
+       ------------------------------ */
+    .navbar {
+      position: fixed;
+      top: 16px;
+      inset-inline: 0;
+      z-index: 999;
+    }
+
+    .navbar-inner {
+      width: min(1180px, calc(100% - 24px));
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 14px;
+      border: 1px solid var(--color-line);
+      border-radius: 999px;
+      background: rgba(0,0,0,0.68);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(197,209,77,0.16);
+      box-shadow: 0 0 0 8px rgba(197,209,77,0.05);
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-white);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      font-size: 0.78rem;
+      color: var(--color-text-soft);
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.8);
+      transition: color .25s ease, transform .25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-accent);
+      transform: translateY(-2px);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      padding: 12px 20px;
+      background: var(--color-accent);
+      color: #000;
+      box-shadow: 0 14px 30px rgba(197,209,77,0.22);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-accent-soft);
+      box-shadow: 0 18px 36px rgba(197,209,77,0.32);
+    }
+
+    .btn-secondary {
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.04);
+      color: var(--color-white);
+      border: 1px solid var(--color-line);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-line-strong);
+    }
+
+    /* ------------------------------
+       Hero
+       ------------------------------ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 140px 0 86px;
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(12px);
+      z-index: 0;
+    }
+
+    .hero::before {
+      width: 360px;
+      height: 360px;
+      top: 10%;
+      inset-inline-start: -110px;
+      background: radial-gradient(circle, rgba(197,209,77,0.18) 0%, rgba(197,209,77,0.06) 55%, transparent 72%);
+      animation: floatGlow 7s ease-in-out infinite alternate;
+    }
+
+    .hero::after {
+      width: 440px;
+      height: 440px;
+      bottom: 0;
+      inset-inline-end: -120px;
+      background: radial-gradient(circle, rgba(197,209,77,0.16) 0%, rgba(197,209,77,0.05) 50%, transparent 72%);
+      animation: floatGlow 8s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes floatGlow {
+      from { transform: translate3d(0,0,0) scale(1); }
+      to { transform: translate3d(20px, -24px, 0) scale(1.05); }
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--color-line);
+      background: rgba(197,209,77,0.08);
+      color: var(--color-accent);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      box-shadow: 0 0 0 8px rgba(197,209,77,0.08);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 8vw, 6.8rem);
+      line-height: 0.98;
+      color: var(--color-white);
+      letter-spacing: -0.04em;
+      font-weight: 700;
+      max-width: 760px;
+    }
+
+    .hero h1 .accent {
+      color: var(--color-accent);
+    }
+
+    .hero p {
+      margin-top: 24px;
+      max-width: 640px;
+      font-size: clamp(1.03rem, 2vw, 1.32rem);
+      color: var(--color-text-soft);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .hero-panel {
+      min-height: 500px;
+      position: relative;
+      border-radius: 34px;
+      border: 1px solid var(--color-line);
+      background:
+        linear-gradient(140deg, rgba(197,209,77,0.12), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.18));
+      pointer-events: none;
+    }
+
+    .floating-card {
+      position: absolute;
+      width: min(78%, 330px);
+      padding: 26px;
+      border-radius: 28px;
+      background: rgba(0,0,0,0.48);
+      border: 1px solid rgba(197,209,77,0.18);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 22px 60px rgba(0,0,0,0.28);
+      animation: floatCard 5.5s ease-in-out infinite alternate;
+    }
+
+    .floating-card:first-child {
+      top: 42px;
+      inset-inline-end: 26px;
+    }
+
+    .floating-card:last-child {
+      bottom: 42px;
+      inset-inline-start: 26px;
+      animation-delay: -2.2s;
+    }
+
+    .floating-card small {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+
+    .floating-card strong {
+      display: block;
+      font-size: 1.32rem;
+      line-height: 1.45;
+      color: var(--color-white);
+    }
+
+    .floating-card p {
+      margin-top: 10px;
+      color: var(--color-text-soft);
+      font-size: 0.96rem;
+    }
+
+    @keyframes floatCard {
+      from { transform: translateY(0); }
+      to { transform: translateY(-16px); }
+    }
+
+    /* ------------------------------
+       Sections
+       ------------------------------ */
+    section {
+      position: relative;
+      padding: 88px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--color-accent);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .section-title {
+      color: var(--color-white);
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+    }
+
+    .section-desc {
+      color: var(--color-text-soft);
+      font-size: 1.05rem;
+      max-width: 720px;
+    }
+
+    .glass-card {
+      border: 1px solid var(--color-line);
+      background: var(--color-card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(10px);
+    }
+
+    /* ------------------------------
+       Top Gallery | imags1
+       ------------------------------ */
+    .gallery-shell {
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .gallery-marquee {
+      display: flex;
+      gap: 16px;
+      width: max-content;
+      animation: marqueeMove 34s linear infinite;
+      will-change: transform;
+    }
+
+    .gallery-shell:hover .gallery-marquee {
+      animation-play-state: paused;
+    }
+
+    @keyframes marqueeMove {
+      from { transform: translateX(0); }
+      to { transform: translateX(50%); }
+    }
+
+    .gallery-item {
+      width: 295px;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(197,209,77,0.12);
+      background: rgba(255,255,255,0.03);
+      box-shadow: var(--shadow-md);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+
+    /* ------------------------------
+       About
+       ------------------------------ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+    }
+
+    .about-main,
+    .about-card,
+    .service-card,
+    .why-card,
+    .work-card,
+    .cta-box {
+      border: 1px solid var(--color-line);
+      background: var(--color-card);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .about-main {
+      padding: 32px;
+      border-radius: var(--radius-xl);
+    }
+
+    .about-main p {
+      color: var(--color-text-soft);
+      font-size: 1.08rem;
+      margin-bottom: 16px;
+    }
+
+    .about-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .about-card {
+      position: relative;
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .about-card span {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--color-accent);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .about-card h3 {
+      color: var(--color-white);
+      font-size: 1.32rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .about-card p {
+      color: var(--color-text-soft);
+      font-size: 0.98rem;
+    }
+
+    /* ------------------------------
+       Services & Why Us
+       ------------------------------ */
+    .services-grid,
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .service-card,
+    .why-card {
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      transition: transform 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+      min-height: 230px;
+    }
+
+    .service-card:hover,
+    .why-card:hover,
+    .work-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--color-line-strong);
+      background: rgba(197,209,77,0.06);
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      border-radius: 16px;
+      background: var(--color-accent);
+      color: #000;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 14px 30px rgba(197,209,77,0.14);
+    }
+
+    .service-card h3,
+    .why-card h3 {
+      color: var(--color-white);
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .service-card p,
+    .why-card p {
+      color: var(--color-text-soft);
+      font-size: 0.97rem;
+    }
+
+    /* ------------------------------
+       Works Gallery | imags2
+       ------------------------------ */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .work-card {
+      overflow: hidden;
+      border-radius: 28px;
+      aspect-ratio: 1 / 1;
+      transition: transform 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+    }
+
+    .work-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .work-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .empty-state {
+      padding: 34px 22px;
+      text-align: center;
+      border-radius: 20px;
+      border: 1px dashed rgba(197,209,77,0.28);
+      color: var(--color-text-soft);
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* ------------------------------
+       CTA
+       ------------------------------ */
+    .cta-box {
+      position: relative;
+      overflow: hidden;
+      border-radius: 36px;
+      padding: 42px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(197,209,77,0.14), rgba(255,255,255,0.035));
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      inset: auto auto -50px -50px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(197,209,77,0.16) 0%, transparent 68%);
+      pointer-events: none;
+    }
+
+    .cta-content,
+    .cta-actions {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-content h2 {
+      color: var(--color-white);
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .cta-content p {
+      color: var(--color-text-soft);
+      font-size: 1.08rem;
+      max-width: 620px;
+    }
+
+    .cta-actions {
+      display: grid;
+      gap: 14px;
+      align-content: center;
+    }
+
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 118px;
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--color-line);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.85);
+      transition: transform .25s ease, border-color .25s ease, color .25s ease;
+    }
+
+    .social-link:hover {
+      transform: translateY(-3px);
+      border-color: var(--color-line-strong);
+      color: var(--color-accent);
+    }
+
+    /* ------------------------------
+       Footer
+       ------------------------------ */
+    .footer {
+      padding: 34px 0 40px;
+      border-top: 1px solid rgba(197,209,77,0.12);
+      background: rgba(0,0,0,0.72);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--color-text-soft);
+      font-size: 0.96rem;
+    }
+
+    /* ------------------------------
+       Responsive
+       ------------------------------ */
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .section-head,
+      .about-grid,
+      .cta-box {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid,
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .works-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body::before {
+        background-size: 300px auto;
+        opacity: 0.02;
+      }
+
+      .navbar {
+        top: 10px;
+      }
+
+      .navbar-inner {
+        width: calc(100% - 14px);
+        padding: 10px 10px;
+        gap: 10px;
+      }
+
+      .brand-logo {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+      }
+
+      .brand-title {
+        font-size: 0.94rem;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .navbar .btn-primary {
+        padding: 10px 14px;
+        font-size: 0.86rem;
+      }
+
+      .hero {
+        padding: 120px 0 70px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-panel {
+        min-height: 360px;
+      }
+
+      .floating-card {
+        width: calc(100% - 34px);
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .floating-card:first-child {
+        top: 16px;
+        inset-inline-end: 17px;
+      }
+
+      .floating-card:last-child {
+        bottom: 16px;
+        inset-inline-start: 17px;
+      }
+
+      section {
+        padding: 66px 0;
+      }
+
+      .gallery-shell {
+        padding: 12px;
+      }
+
+      .gallery-item {
+        width: 230px;
+      }
+
+      .services-grid,
+      .why-grid,
+      .works-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-box {
+        padding: 26px;
+        border-radius: 28px;
+      }
+
+      .footer-inner {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" aria-label="التنقل الرئيسي">
+    <div class="navbar-inner">
+      <a class="brand" href="#top" aria-label="سدن استديو">
+        <span class="brand-logo">
+          <img src="https://i.ibb.co/hJFLGF29/image.png" alt="شعار سدن استديو" />
+        </span>
+        <span class="brand-text">
+          <span class="brand-title">سدن استديو</span>
+          <span class="brand-subtitle">حلول تسويقية وبصرية تصنع أثرًا</span>
+        </span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#portfolio-file">الملف</a>
+        <a href="#about">من نحن</a>
+        <a href="#services">خدماتنا</a>
+        <a href="#why-us">لماذا سدن؟</a>
+        <a href="#works">أعمالنا</a>
+        <a href="#contact">تواصل</a>
+      </div>
+
+      <a class="btn btn-primary js-whatsapp" href="#">انضم كمهتم</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container hero-grid">
+      <div class="reveal">
+        <span class="hero-badge">هوية بصرية وتسويق بحضور احترافي</span>
+        <h1>نحوّل الفكرة إلى <span class="accent">حضور</span><br>يراه الجمهور ويتذكّره.</h1>
+        <p>
+          في سدن استديو نصنع حلولًا تسويقية وبصرية تمنح المشاريع والعلامات التجارية حضورًا واضحًا،
+          راقيًا، ومؤثرًا من أول نظرة.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary js-whatsapp" href="#">انضم كمهتم</a>
+          <a class="btn btn-secondary" href="#portfolio-file">استعرض الملف</a>
+        </div>
+      </div>
+
+      <div class="hero-panel reveal" aria-hidden="true">
+        <div class="floating-card">
+          <small>Brand Identity</small>
+          <strong>هوية متماسكة تعكس قيمة المشروع وتمنحه بصمة تميّزه.</strong>
+          <p>ألوان، خطوط، مخرجات، وتجربة بصرية منسجمة ترفع مستوى الانطباع الأول.</p>
+        </div>
+
+        <div class="floating-card">
+          <small>Visual Impact</small>
+          <strong>محتوى بصري أنيق يشرح، يقنع، ويصنع فرقًا في نظرة الجمهور.</strong>
+          <p>ملفات تعريفية، معارض أعمال، ومخرجات رقمية تعيش بالحركة دون الإخلال برصانة الهوية.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="portfolio-file">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <span class="section-kicker">الملف</span>
+          <h2 class="section-title">لقطات من الملف البصري.</h2>
+        </div>
+        <p class="section-desc">
+          هذا المعرض يُسحب تلقائيًا من مجلد <strong>imags1</strong> الموجود بجانب ملف <strong>index.html</strong> في مستودع GitHub.
+        </p>
+      </div>
+
+      <div class="glass-card gallery-shell reveal">
+        <div class="gallery-marquee" id="topGallery"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <span class="section-kicker">مَن نحن؟</span>
+          <h2 class="section-title">لسنا مجرد وكالة تصميم.</h2>
+        </div>
+        <p class="section-desc">
+          نحن شريك إبداعي متخصص في الحلول التسويقية والبصرية، نعمل على تحويل الأفكار والمشاريع إلى حضور واضح ومؤثر يعكس القيمة الحقيقية للمشروع.
+        </p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-main reveal">
+          <p>
+            في سدن استديو نؤمن أن التصميم الحقيقي لا يقتصر على الجمال، بل يتجاوز ذلك ليكون أداة استراتيجية تبني الثقة، وتوضح الرسالة، وتمنح المشروع حضورًا يليق به.
+          </p>
+          <p>
+            نعتني بتفاصيل الهوية، والملفات التعريفية، والمخرجات التسويقية، والظهور الرقمي؛ حتى تصبح كل نقطة تواصل مع الجمهور امتدادًا طبيعيًا لقيمة المشروع.
+          </p>
+        </div>
+
+        <div class="about-stack">
+          <article class="about-card reveal">
+            <span>فلسفتنا</span>
+            <h3>قوة العرض جزء من قوة المشروع.</h3>
+            <p>لذلك نصنع مخرجات بصرية تساعد على الشرح، الإقناع، وتعزيز الانطباع الأول لدى الجمهور المستهدف.</p>
+          </article>
+
+          <article class="about-card reveal">
+            <span>رؤيتنا</span>
+            <h3>هوية واضحة وحضور لا يُشبه غيره.</h3>
+            <p>نطمح لأن تكون كل علامة نعمل معها أكثر وضوحًا، أكثر تميزًا، وأكثر قدرة على الوصول إلى جمهورها.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <span class="section-kicker">خدماتنا</span>
+          <h2 class="section-title">حلول متكاملة من الفكرة إلى الظهور.</h2>
+        </div>
+        <p class="section-desc">
+          نبني التجربة البصرية كاملة، من الهوية وحتى المواد التسويقية والملفات التي يحتاجها المشروع في رحلته مع جمهوره.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card reveal">
+          <div class="card-icon">01</div>
+          <h3>تطوير الهويات البصرية</h3>
+          <p>نبني هوية متكاملة تمنح المشروع شخصية واضحة وحضورًا ثابتًا في جميع المخرجات.</p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="card-icon">02</div>
+          <h3>صناعة المحتوى التسويقي</h3>
+          <p>نصمم المواد التسويقية والملفات والعروض التي ترفع جودة الخطاب البصري للعلامة.</p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="card-icon">03</div>
+          <h3>الإخراج الفني والتصميم الرقمي</h3>
+          <p>نصوغ تجربة بصرية أنيقة ومدروسة تتوازن فيها الرسالة والجمال والوضوح.</p>
+        </article>
+
+        <article class="service-card reveal">
+          <div class="card-icon">04</div>
+          <h3>حلول تسويقية عقارية</h3>
+          <p>نبرز الفرص والقيمة التنافسية للمشاريع بأسلوب بصري يساعد على الشرح والإقناع.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="why-us">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <span class="section-kicker">لماذا سدن استديو؟</span>
+          <h2 class="section-title">لأن الانطباع الأول يصنع الفرق.</h2>
+        </div>
+        <p class="section-desc">
+          نهتم بالتفاصيل الصغيرة لأنها في النهاية تصنع حضورًا كبيرًا، وتمنح المشروع لغة بصرية أكثر احترافية وثقة.
+        </p>
+      </div>
+
+      <div class="why-grid">
+        <article class="why-card reveal">
+          <div class="card-icon">✦</div>
+          <h3>تخصص دقيق</h3>
+          <p>نفهم احتياجات المشاريع التي تبحث عن حضور بصري راقٍ وواضح ومقنع.</p>
+        </article>
+
+        <article class="why-card reveal">
+          <div class="card-icon">◎</div>
+          <h3>تفاصيل محسوبة</h3>
+          <p>كل لون، كل خط، وكل مساحة لها دور في توضيح الرسالة وبناء الثقة.</p>
+        </article>
+
+        <article class="why-card reveal">
+          <div class="card-icon">◆</div>
+          <h3>مخرجات عملية</h3>
+          <p>نصمم ما يخدم التسويق والظهور ويصلح للاستخدام الفعلي في العرض والتواصل.</p>
+        </article>
+
+        <article class="why-card reveal">
+          <div class="card-icon">↗</div>
+          <h3>حياة وحركة</h3>
+          <p>واجهة نابضة بالحركة الناعمة والانتقالات الأنيقة مع التزام كامل بالهوية البصرية.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="works">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <span class="section-kicker">أعمالنا</span>
+          <h2 class="section-title">نماذج من مخرجاتنا.</h2>
+        </div>
+        <p class="section-desc">
+          هذا القسم يُسحب تلقائيًا من مجلد <strong>imags2</strong> الموجود بجانب ملف <strong>index.html</strong> في مستودع GitHub.
+        </p>
+      </div>
+
+      <div class="works-grid" id="bottomGallery"></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="cta-box reveal">
+        <div class="cta-content">
+          <span class="section-kicker">ابدأ التواصل</span>
+          <h2>مهتم بخدمات سدن استديو؟</h2>
+          <p>اضغط على زر الانضمام، وسيفتح واتساب تلقائيًا برسالة جاهزة: <strong>مرحبا انا مهتم</strong>.</p>
+        </div>
+
+        <div class="cta-actions">
+          <a class="btn btn-primary js-whatsapp" href="#">انضم كمهتم</a>
+          <div class="socials">
+            <a class="social-link js-whatsapp" href="#">واتساب</a>
+            <a class="social-link" id="snapchatLink" href="#" target="_blank" rel="noopener">سناب</a>
+            <a class="social-link" id="instagramLink" href="#" target="_blank" rel="noopener">انستقرام</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <strong>سدن استديو</strong>
+      <span>رؤية واضحة، حضور قوي، وقيمة لا تُخطئها العين.</span>
+    </div>
+  </footer>
+
+  <script>
+    /*
+      ===============================
+      إعدادات سريعة:
+      1) إذا كان الموقع على GitHub Pages القياسي فغالبًا سيكتشف المستودع تلقائيًا.
+      2) إذا كنت تستخدم دومين مخصص، ضع owner/repo/branch يدويًا أدناه.
+      3) عدّل روابط سناب وانستقرام عند الحاجة.
+      ===============================
+    */
+    const APP_CONFIG = {
+      logoUrl: 'https://i.ibb.co/hJFLGF29/image.png',
+      whatsappNumber: '966562848586',
+      whatsappMessage: 'مرحبا انا مهتم',
+      snapchatUrl: '#',
+      instagramUrl: '#',
+
+      github: {
+        owner: '',
+        repo: '',
+        branch: 'main'
+      },
+
+      topFolder: 'imags1',
+      bottomFolder: 'imags2',
+
+      topFallback: [
+        // './imags1/01.jpg',
+        // './imags1/02.jpg'
+      ],
+      bottomFallback: [
+        // './imags2/01.jpg',
+        // './imags2/02.jpg'
+      ]
+    };
+
+    const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif'];
+
+    function setupLinks() {
+      const whatsappUrl = `https://wa.me/${APP_CONFIG.whatsappNumber}?text=${encodeURIComponent(APP_CONFIG.whatsappMessage)}`;
+
+      document.querySelectorAll('.js-whatsapp').forEach((element) => {
+        element.href = whatsappUrl;
+        element.target = '_blank';
+        element.rel = 'noopener';
+      });
+
+      document.getElementById('snapchatLink').href = APP_CONFIG.snapchatUrl || '#';
+      document.getElementById('instagramLink').href = APP_CONFIG.instagramUrl || '#';
+    }
+
+    function isImageFile(name = '') {
+      const file = name.toLowerCase();
+      return IMAGE_EXTENSIONS.some(ext => file.endsWith(ext));
+    }
+
+    function inferGitHubRepo() {
+      const manualOwner = APP_CONFIG.github.owner?.trim();
+      const manualRepo = APP_CONFIG.github.repo?.trim();
+      const manualBranch = APP_CONFIG.github.branch?.trim() || 'main';
+
+      if (manualOwner && manualRepo) {
+        return { owner: manualOwner, repo: manualRepo, branch: manualBranch };
+      }
+
+      const host = window.location.hostname;
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+
+      if (!host.endsWith('github.io')) {
+        return null;
+      }
+
+      const owner = host.split('.')[0];
+      let repo = '';
+
+      if (pathSegments.length && pathSegments[0] !== 'index.html') {
+        repo = pathSegments[0];
+      } else {
+        repo = `${owner}.github.io`;
+      }
+
+      return { owner, repo, branch: manualBranch };
+    }
+
+    async function fetchFolderImages(folderName, fallback = []) {
+      const repoInfo = inferGitHubRepo();
+      if (!repoInfo) return fallback;
+
+      const apiUrl = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${folderName}?ref=${repoInfo.branch}`;
+
+      try {
+        const response = await fetch(apiUrl, {
+          headers: { Accept: 'application/vnd.github+json' }
+        });
+
+        if (!response.ok) throw new Error('GitHub API error');
+
+        const files = await response.json();
+        return files
+          .filter(item => item.type === 'file' && isImageFile(item.name))
+          .map(item => item.download_url)
+          .filter(Boolean);
+      } catch (error) {
+        console.warn(`تعذر جلب صور المجلد ${folderName} من GitHub.`, error);
+        return fallback;
+      }
+    }
+
+    function renderTopGallery(images) {
+      const target = document.getElementById('topGallery');
+      if (!target) return;
+      target.innerHTML = '';
+
+      if (!images.length) {
+        target.style.width = '100%';
+        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags1. تأكد من وجود الصور أو عرّف بيانات المستودع في APP_CONFIG.</div>';
+        return;
+      }
+
+      const duplicated = [...images, ...images];
+      const fragment = document.createDocumentFragment();
+
+      duplicated.forEach((src, index) => {
+        const item = document.createElement('figure');
+        item.className = 'gallery-item';
+
+        const image = document.createElement('img');
+        image.src = src;
+        image.alt = `صورة من الملف البصري ${index + 1}`;
+        image.loading = 'lazy';
+
+        item.appendChild(image);
+        fragment.appendChild(item);
+      });
+
+      target.appendChild(fragment);
+    }
+
+    function renderBottomGallery(images) {
+      const target = document.getElementById('bottomGallery');
+      if (!target) return;
+      target.innerHTML = '';
+
+      if (!images.length) {
+        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags2. تأكد من وجود الصور أو عرّف بيانات المستودع في APP_CONFIG.</div>';
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      images.forEach((src, index) => {
+        const card = document.createElement('figure');
+        card.className = 'work-card reveal visible';
+
+        const image = document.createElement('img');
+        image.src = src;
+        image.alt = `عمل من أعمال سدن استديو ${index + 1}`;
+        image.loading = 'lazy';
+
+        card.appendChild(image);
+        fragment.appendChild(card);
+      });
+
+      target.appendChild(fragment);
+    }
+
+    function setupReveal() {
+      const elements = document.querySelectorAll('.reveal');
+
+      if (!('IntersectionObserver' in window)) {
+        elements.forEach(el => el.classList.add('visible'));
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      elements.forEach(el => observer.observe(el));
+    }
+
+    async function initGalleries() {
+      const [topImages, bottomImages] = await Promise.all([
+        fetchFolderImages(APP_CONFIG.topFolder, APP_CONFIG.topFallback),
+        fetchFolderImages(APP_CONFIG.bottomFolder, APP_CONFIG.bottomFallback)
+      ]);
+
+      renderTopGallery(topImages);
+      renderBottomGallery(bottomImages);
+    }
+
+    setupLinks();
+    setupReveal();
+    initGalleries();
+  </script>
+</body>
+</html>
