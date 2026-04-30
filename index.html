@@ -1683,7 +1683,7 @@
       const image = document.createElement('img');
       image.src = src;
       image.alt = `${altPrefix} ${index + 1}`;
-      image.loading = index < 4 ? 'eager' : 'lazy';
+      image.loading = 'eager';
       image.decoding = 'async';
 
       item.appendChild(image);
