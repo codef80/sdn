@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>سدن استديو | Sadan Studio</title>
   <meta name="description" content="سدن استديو - حلول تسويقية بصرية .." />
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/xSjMddSX/image.jpg" />
+  <link rel="apple-touch-icon" href="https://i.ibb.co/xSjMddSX/image.jpg" />
 
   <style>
 
@@ -66,7 +68,7 @@
       --shadow-md: 0 18px 40px rgba(0,0,0,0.22);
       --pattern-url: url('https://i.ibb.co/TxVyCKdq/Portfolio-pdf.png');
       --pattern-opacity-desktop: 0.082;
-      --pattern-opacity-mobile: 0.090;
+      --pattern-opacity-mobile: 1.60;
       --pattern-size-desktop: 620px;
       --pattern-size-mobile: 820px;
       --card-gradient: linear-gradient(135deg, rgba(195,208,69,0.22) 0%, rgba(170,183,49,0.14) 24%, rgba(255,255,255,0.05) 56%, rgba(195,208,69,0.14) 100%);
@@ -422,6 +424,16 @@
       filter: drop-shadow(0 22px 44px rgba(195,208,69,0.16));
     }
 
+    .hero-brand-name {
+      color: var(--color-white);
+      font-size: clamp(1.35rem, 3vw, 2.15rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-top: 10px;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+
     .hero-badge {
       display: inline-flex;
       align-items: center;
@@ -550,6 +562,14 @@
       padding: 88px 0;
     }
 
+    #portfolio-file {
+      padding: 58px 0 24px;
+    }
+
+    #about {
+      padding-top: 34px;
+    }
+
     .section-head {
       display: grid;
       grid-template-columns: 0.9fr 1.1fr;
@@ -592,16 +612,16 @@
        Top Gallery | imags1
        ------------------------------ */
 .gallery-shell {
-  padding: 14px;
+  padding: 18px;
   overflow: hidden;
   width: 100%;
   max-width: 100%;
-  direction: ltr;
+  direction: rtl;
 }
 
 .gallery-marquee {
   display: flex;
-  gap: 18px;
+  gap: 20px;
   width: max-content;
   direction: rtl;
   animation: marqueeMove var(--top-gallery-speed) linear infinite;
@@ -1085,6 +1105,14 @@
         padding: 66px 0;
       }
 
+      #portfolio-file {
+        padding: 42px 0 14px;
+      }
+
+      #about {
+        padding-top: 24px;
+      }
+
       .gallery-shell {
   padding: 10px;
   border-radius: 24px;
@@ -1160,16 +1188,19 @@
   <header class="hero" id="top">
     <div class="container hero-grid">
       <div class="hero-copy reveal">
-        <div class="hero-main-logo-wrap"><img class="hero-main-logo" src="https://i.ibb.co/SX2mB7sv/image.png" alt="شعار سدن استديو" /></div>
-        <p><p>
+        <div class="hero-main-logo-wrap"><img class="hero-main-logo" src="https://i.ibb.co/xSjMddSX/image.jpg" alt="شعار سدن استديو" /></div>
+        <div class="hero-brand-name">سدن استديو</div>
         <h1>نحوّل الفكرة إلى <span class="accent">حضور</span><br></h1>
         <p>
-          في سدن استديو نصنع حلولًا تسويقية وبصرية تمنح المشاريع والعلامات التجارية حضورًا واضحًا،
+          في سدن استديو نصنع حلولًا تسويقية بصرية تمنح المشاريع والعلامات التجارية حضورًا واضحًا،
           راقيًا، ومؤثرًا من أول نظرة.
         </p>
+
       </div>
+
     </div>
   </header>
+
   <section id="portfolio-file">
   <div class="container">
     <div class="glass-card gallery-shell reveal">
@@ -1177,6 +1208,7 @@
     </div>
   </div>
 </section>
+
   <section id="about">
     <div class="container">
       <div class="section-head reveal">
@@ -1185,7 +1217,7 @@
           <h2 class="section-title">لسنا مجرد وكالة تصميم.</h2>
         </div>
         <p class="section-desc">
-          نحن شريك إبداعي متخصص في الحلول التسويقية والبصرية، نعمل على تحويل الأفكار والمشاريع إلى حضور واضح ومؤثر يعكس القيمة الحقيقية للمشروع.
+          نحن شريك إبداعي متخصص في الحلول التسويقية البصرية، نعمل على تحويل الأفكار والمشاريع إلى حضور واضح ومؤثر يعكس القيمة الحقيقية للمشروع.
         </p>
       </div>
 
