@@ -694,15 +694,15 @@
     }
 
     .gallery-item {
-      flex: 0 0 auto;
-      width: clamp(280px, 38vw, var(--gallery-tv-width));
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      border-radius: 24px;
-      border: 1px solid rgba(195,208,69,0.12);
-      background: rgba(255,255,255,0.03);
-      box-shadow: var(--shadow-md);
-    }
+  flex: 0 0 auto;
+  width: min(581px, calc((100vw - 72px) / 2));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 1px solid rgba(195,208,69,0.12);
+  background: rgba(255,255,255,0.03);
+  box-shadow: var(--shadow-md);
+}
 
     .gallery-item img {
       width: 100%;
@@ -1053,6 +1053,10 @@
       color: var(--color-text-soft);
       font-size: 0.96rem;
     }
+    
+    .footer-inner strong {
+  color: var(--color-accent);
+}
 
     /* ------------------------------
        Responsive
@@ -1180,9 +1184,9 @@
       }
 
       .gallery-item {
-        width: 84vw;
-        border-radius: 18px;
-      }
+  width: calc(100vw - 52px);
+  border-radius: 28px;
+}
 
       .services-grid,
       .why-grid,
@@ -1245,7 +1249,7 @@
   <header class="hero" id="top">
     <div class="container hero-grid">
       <div class="hero-copy reveal">
-        <div class="hero-main-logo-wrap"><img class="hero-main-logo" src="https://i.ibb.co/xSjMddSX/image.jpg" alt="شعار سدن استديو" /></div>
+        <div class="hero-main-logo-wrap"><img class="hero-main-logo" src="https://i.ibb.co/b5HPcWHB/image.png" alt="شعار سدن استديو" /></div>
         <div class="hero-brand-name"></div>
         <h1>نحوّل الفكرة إلى <span class="accent">حضور</span><br></h1>
         <p>
