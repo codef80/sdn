@@ -65,10 +65,12 @@
       --shadow-xl: 0 28px 80px rgba(0,0,0,0.32);
       --shadow-md: 0 18px 40px rgba(0,0,0,0.22);
       --pattern-url: url('https://i.ibb.co/TxVyCKdq/Portfolio-pdf.png');
-      --pattern-opacity-desktop: 0.070;
-      --pattern-opacity-mobile: 0.085;
-      --card-gradient: linear-gradient(135deg, rgba(195,208,69,0.14), rgba(255,255,255,0.035));
-      --top-gallery-speed: 16s; /* التحكم بسرعة معرض الصور: قلل الرقم = أسرع */
+      --pattern-opacity-desktop: 0.082;
+      --pattern-opacity-mobile: 0.095;
+      --pattern-size-desktop: 620px;
+      --pattern-size-mobile: 420px;
+      --card-gradient: linear-gradient(135deg, rgba(195,208,69,0.22) 0%, rgba(170,183,49,0.14) 24%, rgba(255,255,255,0.05) 56%, rgba(195,208,69,0.14) 100%);
+      --top-gallery-speed: 12s; /* التحكم بسرعة معرض الصور: قلل الرقم = أسرع */
       --gallery-tv-width: 460px;
     }
 
@@ -97,7 +99,7 @@
       inset: -45vmax;
       background-image: var(--pattern-url);
       background-repeat: repeat;
-      background-size: 430px auto;
+      background-size: var(--pattern-size-desktop) auto;
       opacity: var(--pattern-opacity-desktop);
       pointer-events: none;
       z-index: 0;
@@ -179,16 +181,51 @@
       height: 46px;
       flex: 0 0 46px;
       border-radius: 50%;
-      overflow: hidden;
+      overflow: visible;
+      position: relative;
+      display: grid;
+      place-items: center;
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(195,208,69,0.16);
       box-shadow: 0 0 0 8px rgba(195,208,69,0.05);
+      isolation: isolate;
+    }
+
+    .brand-logo::before,
+    .brand-logo::after {
+      content: '';
+      position: absolute;
+      inset: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .brand-logo::before {
+      width: 112px;
+      height: 112px;
+      background: radial-gradient(circle, rgba(195,208,69,0.22) 0%, rgba(195,208,69,0.09) 42%, rgba(195,208,69,0.02) 62%, transparent 78%);
+      animation: logoPulse 3.6s ease-in-out infinite;
+      filter: blur(2px);
+    }
+
+    .brand-logo::after {
+      width: 84px;
+      height: 84px;
+      background: conic-gradient(from 0deg, transparent 0 20deg, rgba(195,208,69,0.18) 20deg 38deg, transparent 38deg 92deg, rgba(195,208,69,0.12) 92deg 108deg, transparent 108deg 180deg, rgba(195,208,69,0.12) 180deg 196deg, transparent 196deg 270deg, rgba(195,208,69,0.16) 270deg 286deg, transparent 286deg 360deg);
+      filter: blur(8px);
+      opacity: .78;
+      animation: logoSpin 12s linear infinite;
     }
 
     .brand-logo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 50%;
+      position: relative;
+      z-index: 1;
     }
 
     .brand-text {
@@ -316,6 +353,16 @@
       to { transform: translate3d(20px, -24px, 0) scale(1.05); }
     }
 
+    @keyframes logoPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.92); opacity: .85; }
+      50% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+    }
+
+    @keyframes logoSpin {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
     .hero-grid {
       position: relative;
       z-index: 1;
@@ -331,11 +378,48 @@
       margin-inline: auto;
     }
 
+    .hero-main-logo-wrap {
+      width: fit-content;
+      margin: 0 auto 24px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-main-logo-wrap::before,
+    .hero-main-logo-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero-main-logo-wrap::before {
+      width: min(360px, 84vw);
+      height: min(360px, 84vw);
+      background: radial-gradient(circle, rgba(195,208,69,0.20) 0%, rgba(195,208,69,0.10) 28%, rgba(195,208,69,0.04) 54%, transparent 76%);
+      animation: logoPulse 4.2s ease-in-out infinite;
+      filter: blur(4px);
+    }
+
+    .hero-main-logo-wrap::after {
+      width: min(300px, 70vw);
+      height: min(300px, 70vw);
+      background: conic-gradient(from 0deg, transparent 0 16deg, rgba(195,208,69,0.16) 16deg 32deg, transparent 32deg 80deg, rgba(195,208,69,0.10) 80deg 94deg, transparent 94deg 140deg, rgba(195,208,69,0.14) 140deg 156deg, transparent 156deg 228deg, rgba(195,208,69,0.10) 228deg 244deg, transparent 244deg 300deg, rgba(195,208,69,0.14) 300deg 316deg, transparent 316deg 360deg);
+      filter: blur(12px);
+      opacity: .75;
+      animation: logoSpin 18s linear infinite;
+    }
+
     .hero-main-logo {
       width: min(245px, 62vw);
       height: auto;
-      margin: 0 auto 24px;
-      filter: drop-shadow(0 22px 44px rgba(195,208,69,0.12));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 22px 44px rgba(195,208,69,0.16));
     }
 
     .hero-badge {
@@ -567,10 +651,30 @@
     .cta-box,
     .glass-card,
     .signature-card {
+      position: relative;
       border: 1px solid var(--color-line);
       background: var(--card-gradient);
       backdrop-filter: blur(10px);
       box-shadow: var(--shadow-md);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .about-main::before,
+    .about-card::before,
+    .service-card::before,
+    .why-card::before,
+    .cta-box::before,
+    .signature-card::before {
+      content: '';
+      position: absolute;
+      inset: -25% auto auto -10%;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(195,208,69,0.18) 0%, rgba(195,208,69,0.06) 42%, transparent 72%);
+      pointer-events: none;
+      z-index: -1;
     }
 
     .about-main {
@@ -812,6 +916,11 @@
       min-height: 210px;
       overflow: hidden;
       transition: transform .28s ease, border-color .28s ease;
+      animation: signatureFloat 5.5s ease-in-out infinite alternate;
+    }
+
+    .signature-card:nth-child(2) {
+      animation-delay: -2.2s;
     }
 
     .signature-card:hover {
@@ -838,6 +947,11 @@
     .signature-card p {
       color: var(--color-text-soft);
       font-size: 1.05rem;
+    }
+
+    @keyframes signatureFloat {
+      from { transform: translateY(0); }
+      to { transform: translateY(-14px); }
     }
 
     /* ------------------------------
@@ -904,6 +1018,16 @@
         width: 40px;
         height: 40px;
         flex-basis: 40px;
+      }
+
+      .brand-logo::before {
+        width: 96px;
+        height: 96px;
+      }
+
+      .brand-logo::after {
+        width: 72px;
+        height: 72px;
       }
 
       .brand-title {
@@ -1014,13 +1138,14 @@
         <a href="#contact">تواصل</a>
       </div>
 
+      <a class="btn btn-primary js-whatsapp" href="#">انضم كمهتم</a>
     </div>
   </nav>
 
   <header class="hero" id="top">
     <div class="container hero-grid">
       <div class="hero-copy reveal">
-        <img class="hero-main-logo" src="https://i.ibb.co/hJFLGF29/image.png" alt="شعار سدن استديو" />
+        <div class="hero-main-logo-wrap"><img class="hero-main-logo" src="https://i.ibb.co/hJFLGF29/image.png" alt="شعار سدن استديو" /></div>
         <span class="hero-badge">هوية بصرية وتسويق بحضور احترافي</span>
         <h1>نحوّل الفكرة إلى <span class="accent">حضور</span><br></h1>
         <p>
@@ -1240,47 +1365,48 @@
       xUrl: 'https://x.com/sdnstudio_sa?s=11',
 
       github: {
-  owner: 'sdnstudio',
-  repo: 'sdnst',
-  branch: 'main'
-},
+        owner: 'sdnstudio',
+        repo: 'sdnst',
+        branch: 'main',
+        repoCandidates: ['sdnst', 'sdnst.com', 'sdnstudio.github.io'],
+        branchCandidates: ['main', 'master']
+      },
 
       topFolder: 'imags1',
       bottomFolder: 'imags2',
 
-      topFallback: [
-        // './imags1/01.jpg',
-        // './imags1/02.jpg'
-      ],
-      bottomFallback: [
-        // './imags2/01.jpg',
-        // './imags2/02.jpg'
-      ]
+      topFallback: [],
+      bottomFallback: []
     };
 
     const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif'];
+    const repoTreeCache = new Map();
 
     function setupLinks() {
-  const whatsappUrl = `https://wa.me/${APP_CONFIG.whatsappNumber}?text=${encodeURIComponent(APP_CONFIG.whatsappMessage)}`;
+      const whatsappUrl = `https://wa.me/${APP_CONFIG.whatsappNumber}?text=${encodeURIComponent(APP_CONFIG.whatsappMessage)}`;
 
-  document.querySelectorAll('.js-whatsapp').forEach((element) => {
-    element.href = whatsappUrl;
-    element.target = '_blank';
-    element.rel = 'noopener';
-  });
+      document.querySelectorAll('.js-whatsapp').forEach((element) => {
+        element.href = whatsappUrl;
+        element.target = '_blank';
+        element.rel = 'noopener';
+      });
 
-  const snapchatLink = document.getElementById('snapchatLink');
-  const instagramLink = document.getElementById('instagramLink');
-  const xLink = document.getElementById('xLink');
+      const snapchatLink = document.getElementById('snapchatLink');
+      const instagramLink = document.getElementById('instagramLink');
+      const xLink = document.getElementById('xLink');
 
-  if (snapchatLink) snapchatLink.href = APP_CONFIG.snapchatUrl || '#';
-  if (instagramLink) instagramLink.href = APP_CONFIG.instagramUrl || '#';
-  if (xLink) xLink.href = APP_CONFIG.xUrl || '#';
-}
+      if (snapchatLink) snapchatLink.href = APP_CONFIG.snapchatUrl || '#';
+      if (instagramLink) instagramLink.href = APP_CONFIG.instagramUrl || '#';
+      if (xLink) xLink.href = APP_CONFIG.xUrl || '#';
+    }
 
     function isImageFile(name = '') {
       const file = name.toLowerCase();
       return IMAGE_EXTENSIONS.some(ext => file.endsWith(ext));
+    }
+
+    function uniqueArray(values = []) {
+      return [...new Set(values.filter(Boolean))];
     }
 
     function inferGitHubRepo() {
@@ -1311,6 +1437,34 @@
       return { owner, repo, branch: manualBranch };
     }
 
+    function getRepoCandidates() {
+      const inferred = inferGitHubRepo();
+      const owner = APP_CONFIG.github.owner?.trim() || inferred?.owner || '';
+      const repos = uniqueArray([
+        APP_CONFIG.github.repo?.trim(),
+        ...(APP_CONFIG.github.repoCandidates || []),
+        inferred?.repo
+      ]);
+      const branches = uniqueArray([
+        APP_CONFIG.github.branch?.trim(),
+        ...(APP_CONFIG.github.branchCandidates || []),
+        inferred?.branch,
+        'main',
+        'master'
+      ]);
+
+      const candidates = [];
+      repos.forEach((repo) => {
+        branches.forEach((branch) => {
+          if (owner && repo && branch) {
+            candidates.push({ owner, repo, branch });
+          }
+        });
+      });
+
+      return candidates;
+    }
+
     function imageExists(src) {
       return new Promise((resolve) => {
         const image = new Image();
@@ -1320,19 +1474,23 @@
       });
     }
 
-    function buildLocalCandidates(folderName, max = 30) {
+    function buildLocalCandidates(folderName, max = 40) {
       const cleanFolder = folderName.replace(/^\/+|\/+$/g, '');
       const names = [];
 
       for (let i = 1; i <= max; i++) {
-        const padded = String(i).padStart(2, '0');
+        const padded2 = String(i).padStart(2, '0');
+        const padded3 = String(i).padStart(3, '0');
         IMAGE_EXTENSIONS.forEach((ext) => {
-          names.push(`./${cleanFolder}/${padded}${ext}`);
+          names.push(`./${cleanFolder}/${padded2}${ext}`);
+          names.push(`./${cleanFolder}/${padded3}${ext}`);
           names.push(`./${cleanFolder}/${i}${ext}`);
+          names.push(`./${cleanFolder}/image-${i}${ext}`);
+          names.push(`./${cleanFolder}/img-${i}${ext}`);
         });
       }
 
-      return [...new Set(names)];
+      return uniqueArray(names);
     }
 
     async function discoverLocalImages(folderName) {
@@ -1341,34 +1499,45 @@
       return results.filter(Boolean);
     }
 
+    async function fetchRepoTree(candidate) {
+      const cacheKey = `${candidate.owner}/${candidate.repo}@${candidate.branch}`;
+      if (repoTreeCache.has(cacheKey)) return repoTreeCache.get(cacheKey);
+
+      const url = `https://api.github.com/repos/${candidate.owner}/${candidate.repo}/git/trees/${candidate.branch}?recursive=1`;
+
+      try {
+        const response = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+        if (!response.ok) throw new Error(`GitHub tree ${response.status}`);
+        const data = await response.json();
+        const tree = Array.isArray(data.tree) ? data.tree : [];
+        repoTreeCache.set(cacheKey, tree);
+        return tree;
+      } catch (error) {
+        console.warn('تعذر قراءة شجرة المستودع:', cacheKey, error);
+        repoTreeCache.set(cacheKey, []);
+        return [];
+      }
+    }
+
     async function fetchFolderImages(folderName, fallback = []) {
-      const repoInfo = inferGitHubRepo();
       const cleanFolder = folderName.replace(/^\/+|\/+$/g, '');
+      const candidates = getRepoCandidates();
 
-      if (repoInfo) {
-        const apiUrl = `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${cleanFolder}?ref=${repoInfo.branch}`;
+      for (const candidate of candidates) {
+        const tree = await fetchRepoTree(candidate);
+        if (!tree.length) continue;
 
-        try {
-          const response = await fetch(apiUrl, {
-            headers: { Accept: 'application/vnd.github+json' }
-          });
+        const images = tree
+          .filter((item) => item.type === 'blob' && item.path && item.path.startsWith(`${cleanFolder}/`) && isImageFile(item.path))
+          .map((item) => `https://raw.githubusercontent.com/${candidate.owner}/${candidate.repo}/${candidate.branch}/${item.path}`);
 
-          if (response.ok) {
-            const files = await response.json();
-            const images = files
-              .filter(item => item.type === 'file' && isImageFile(item.name))
-              .map(item => item.download_url || `https://raw.githubusercontent.com/${repoInfo.owner}/${repoInfo.repo}/${repoInfo.branch}/${cleanFolder}/${item.name}`)
-              .filter(Boolean);
-
-            if (images.length) return images;
-          }
-        } catch (error) {
-          console.warn(`تعذر جلب صور المجلد ${cleanFolder} من GitHub.`, error);
+        if (images.length) {
+          console.info(`تم جلب صور ${cleanFolder} من ${candidate.owner}/${candidate.repo}@${candidate.branch}`);
+          return uniqueArray(images);
         }
       }
 
-      if (fallback.length) return fallback;
-
+      if (fallback.length) return uniqueArray(fallback);
       return await discoverLocalImages(cleanFolder);
     }
 
@@ -1379,7 +1548,7 @@
 
       if (!images.length) {
         target.style.width = '100%';
-        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags1. تأكد من بيانات المستودع في APP_CONFIG أو أسماء الصور المحلية.</div>';
+        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags1. تأكد أن المستودع الصحيح مضبوط في APP_CONFIG.github وأن المجلد موجود داخل الجذر.</div>';
         return;
       }
 
@@ -1408,7 +1577,7 @@
       target.innerHTML = '';
 
       if (!images.length) {
-        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags2. تأكد من بيانات المستودع في APP_CONFIG أو أسماء الصور المحلية.</div>';
+        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags2. تأكد أن المستودع الصحيح مضبوط في APP_CONFIG.github وأن المجلد موجود داخل الجذر.</div>';
         return;
       }
 
