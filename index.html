@@ -1171,17 +1171,22 @@
     const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif'];
 
     function setupLinks() {
-      const whatsappUrl = `https://wa.me/${APP_CONFIG.whatsappNumber}?text=${encodeURIComponent(APP_CONFIG.whatsappMessage)}`;
+  const whatsappUrl = `https://wa.me/${APP_CONFIG.whatsappNumber}?text=${encodeURIComponent(APP_CONFIG.whatsappMessage)}`;
 
-      document.querySelectorAll('.js-whatsapp').forEach((element) => {
-        element.href = whatsappUrl;
-        element.target = '_blank';
-        element.rel = 'noopener';
-      });
+  document.querySelectorAll('.js-whatsapp').forEach((element) => {
+    element.href = whatsappUrl;
+    element.target = '_blank';
+    element.rel = 'noopener';
+  });
 
-      document.getElementById('snapchatLink').href = APP_CONFIG.snapchatUrl || '#';
-      document.getElementById('instagramLink').href = APP_CONFIG.instagramUrl || '#';
-    }
+  const snapchatLink = document.getElementById('snapchatLink');
+  const instagramLink = document.getElementById('instagramLink');
+  const xLink = document.getElementById('xLink');
+
+  if (snapchatLink) snapchatLink.href = APP_CONFIG.snapchatUrl || '#';
+  if (instagramLink) instagramLink.href = APP_CONFIG.instagramUrl || '#';
+  if (xLink) xLink.href = APP_CONFIG.xUrl || '#';
+}
 
     function isImageFile(name = '') {
       const file = name.toLowerCase();
