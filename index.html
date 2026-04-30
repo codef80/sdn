@@ -382,7 +382,7 @@
 
     .hero-main-logo-wrap {
       width: fit-content;
-      margin: 0 auto 24px;
+      margin: 0 auto 46px;
       position: relative;
       isolation: isolate;
     }
@@ -554,6 +554,53 @@
       to { transform: translateY(-16px); }
     }
 
+    .scroll-cue {
+      margin-top: 38px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--color-accent);
+      font-size: 0.92rem;
+      font-weight: 600;
+      opacity: 0.95;
+      animation: scrollCueFloat 1.8s ease-in-out infinite;
+    }
+
+    .scroll-cue span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 52px;
+      border: 1px solid rgba(195,208,69,0.55);
+      border-radius: 999px;
+      position: relative;
+      box-shadow: 0 0 24px rgba(195,208,69,0.16);
+    }
+
+    .scroll-cue span::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      position: absolute;
+      top: 10px;
+      animation: scrollDot 1.4s ease-in-out infinite;
+    }
+
+    @keyframes scrollCueFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    @keyframes scrollDot {
+      0% { transform: translateY(0); opacity: 1; }
+      70% { transform: translateY(22px); opacity: 0.25; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
     /* ------------------------------
        Sections
        ------------------------------ */
@@ -611,46 +658,51 @@
     /* ------------------------------
        Top Gallery | imags1
        ------------------------------ */
-.gallery-shell {
-  padding: 18px;
-  overflow: hidden;
-  width: 100%;
-  max-width: 100%;
-  direction: rtl;
-}
+    .gallery-shell {
+      padding: 18px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 100%;
+      direction: ltr;
+    }
 
-.gallery-marquee {
-  display: flex;
-  gap: 20px;
-  width: max-content;
-  direction: rtl;
-  animation: marqueeMove var(--top-gallery-speed) linear infinite;
-  will-change: transform;
-}
+    .gallery-marquee {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+      animation: marqueeMove var(--top-gallery-speed) linear infinite;
+    }
 
-.gallery-shell:hover .gallery-marquee {
-  animation-play-state: paused;
-}
+    .gallery-marquee:hover {
+      animation-play-state: paused;
+    }
 
-@keyframes marqueeMove {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
+    .gallery-track {
+      display: flex;
+      gap: 20px;
+      padding-inline-end: 20px;
+      flex: 0 0 auto;
+    }
 
-.gallery-item {
-  flex: 0 0 auto;
-  width: clamp(260px, 38vw, var(--gallery-tv-width));
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 24px;
-  border: 1px solid rgba(195,208,69,0.12);
-  background: rgba(255,255,255,0.03);
-  box-shadow: var(--shadow-md);
-}
+    @keyframes marqueeMove {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    .gallery-item {
+      flex: 0 0 auto;
+      width: clamp(280px, 38vw, var(--gallery-tv-width));
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(195,208,69,0.12);
+      background: rgba(255,255,255,0.03);
+      box-shadow: var(--shadow-md);
+    }
 
     .gallery-item img {
       width: 100%;
@@ -1076,6 +1128,10 @@
         padding: 120px 0 70px;
       }
 
+      .hero-main-logo-wrap {
+        margin-bottom: 38px;
+      }
+
       .hero-actions {
         flex-direction: column;
         align-items: stretch;
@@ -1114,18 +1170,19 @@
       }
 
       .gallery-shell {
-  padding: 10px;
-  border-radius: 24px;
-}
+        padding: 10px;
+        border-radius: 24px;
+      }
 
-.gallery-marquee {
-  gap: 12px;
-}
+      .gallery-track {
+        gap: 12px;
+        padding-inline-end: 12px;
+      }
 
-.gallery-item {
-  width: 78vw;
-  border-radius: 18px;
-}
+      .gallery-item {
+        width: 84vw;
+        border-radius: 18px;
+      }
 
       .services-grid,
       .why-grid,
@@ -1195,6 +1252,11 @@
           في سدن استديو نصنع حلولًا تسويقية بصرية تمنح المشاريع والعلامات التجارية حضورًا واضحًا،
           راقيًا، ومؤثرًا من أول نظرة.
         </p>
+
+        <a class="scroll-cue" href="#portfolio-file" aria-label="مرر إلى الأسفل">
+          <span></span>
+          مرر إلى الأسفل
+        </a>
 
       </div>
 
@@ -1398,30 +1460,30 @@
       instagramUrl: 'https://www.instagram.com/sdnstudio_sa',
       xUrl: 'https://x.com/sdnstudio_sa?s=11',
 
-     github: {
-  owner: 'codef80',
-  repo: 'sdn',
-  branch: 'main',
-  repoCandidates: ['sdn'],
-  branchCandidates: ['main']
-},
+      github: {
+        owner: 'codef80',
+        repo: 'sdn',
+        branch: 'main',
+        repoCandidates: ['sdn'],
+        branchCandidates: ['main']
+      },
       
       topFolder: 'imags1',
       bottomFolder: 'imags2',
 
       topFallback: [
-  './imags1/Untitled-1-08.jpg',
-  './imags1/Untitled-1-12.jpg',
-  './imags1/Untitled-1-20.jpg'
-],
+        './imags1/Untitled-1-08.jpg',
+        './imags1/Untitled-1-12.jpg',
+        './imags1/Untitled-1-20.jpg'
+      ],
 
-bottomFallback: [
-  './imags2/Untitled-1-08.jpg',
-  './imags2/Untitled-1-12.jpg',
-  './imags2/Untitled-1-20.jpg',
-  './imags2/Untitled-1-24.jpg',
-  './imags2/Untitled-1-28.jpg'
-]
+      bottomFallback: [
+        './imags2/Untitled-1-08.jpg',
+        './imags2/Untitled-1-12.jpg',
+        './imags2/Untitled-1-20.jpg',
+        './imags2/Untitled-1-24.jpg',
+        './imags2/Untitled-1-28.jpg'
+      ]
     };
 
     const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif'];
@@ -1519,17 +1581,35 @@ bottomFallback: [
       });
     }
 
-    function buildLocalCandidates(folderName, max = 40) {
+    function buildLocalCandidates(folderName, max = 80) {
       const cleanFolder = folderName.replace(/^\/+|\/+$/g, '');
       const names = [];
+
+      const commonNames = [
+        'Untitled-1-01', 'Untitled-1-02', 'Untitled-1-03', 'Untitled-1-04',
+        'Untitled-1-05', 'Untitled-1-06', 'Untitled-1-07', 'Untitled-1-08',
+        'Untitled-1-09', 'Untitled-1-10', 'Untitled-1-11', 'Untitled-1-12',
+        'Untitled-1-13', 'Untitled-1-14', 'Untitled-1-15', 'Untitled-1-16',
+        'Untitled-1-17', 'Untitled-1-18', 'Untitled-1-19', 'Untitled-1-20',
+        'Untitled-1-21', 'Untitled-1-22', 'Untitled-1-23', 'Untitled-1-24',
+        'Untitled-1-25', 'Untitled-1-26', 'Untitled-1-27', 'Untitled-1-28',
+        'Untitled-1-29', 'Untitled-1-30'
+      ];
+
+      commonNames.forEach((name) => {
+        IMAGE_EXTENSIONS.forEach((ext) => {
+          names.push(`./${cleanFolder}/${name}${ext}`);
+        });
+      });
 
       for (let i = 1; i <= max; i++) {
         const padded2 = String(i).padStart(2, '0');
         const padded3 = String(i).padStart(3, '0');
+
         IMAGE_EXTENSIONS.forEach((ext) => {
+          names.push(`./${cleanFolder}/${i}${ext}`);
           names.push(`./${cleanFolder}/${padded2}${ext}`);
           names.push(`./${cleanFolder}/${padded3}${ext}`);
-          names.push(`./${cleanFolder}/${i}${ext}`);
           names.push(`./${cleanFolder}/image-${i}${ext}`);
           names.push(`./${cleanFolder}/img-${i}${ext}`);
         });
@@ -1544,62 +1624,95 @@ bottomFallback: [
       return results.filter(Boolean);
     }
 
-    async function fetchRepoTree(candidate) {
-      const cacheKey = `${candidate.owner}/${candidate.repo}@${candidate.branch}`;
-      if (repoTreeCache.has(cacheKey)) return repoTreeCache.get(cacheKey);
+    async function fetchGitHubFolderImages(folderName) {
+      const cleanFolder = folderName.replace(/^\/+|\/+$/g, '');
+      const candidates = getRepoCandidates();
 
-      const url = `https://api.github.com/repos/${candidate.owner}/${candidate.repo}/git/trees/${candidate.branch}?recursive=1`;
+      for (const candidate of candidates) {
+        const apiUrl = `https://api.github.com/repos/${candidate.owner}/${candidate.repo}/contents/${encodeURIComponent(cleanFolder)}?ref=${encodeURIComponent(candidate.branch)}`;
 
-      try {
-        const response = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
-        if (!response.ok) throw new Error(`GitHub tree ${response.status}`);
-        const data = await response.json();
-        const tree = Array.isArray(data.tree) ? data.tree : [];
-        repoTreeCache.set(cacheKey, tree);
-        return tree;
-      } catch (error) {
-        console.warn('تعذر قراءة شجرة المستودع:', cacheKey, error);
-        repoTreeCache.set(cacheKey, []);
-        return [];
+        try {
+          const response = await fetch(apiUrl, {
+            headers: { Accept: 'application/vnd.github+json' },
+            cache: 'no-store'
+          });
+
+          if (!response.ok) continue;
+
+          const data = await response.json();
+
+          if (!Array.isArray(data)) continue;
+
+          const images = data
+            .filter((item) => item.type === 'file' && isImageFile(item.name))
+            .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }))
+            .map((item) => {
+              return `https://raw.githubusercontent.com/${candidate.owner}/${candidate.repo}/${candidate.branch}/${cleanFolder}/${encodeURIComponent(item.name)}`;
+            });
+
+          if (images.length) return images;
+        } catch (error) {
+          console.warn('تعذر جلب صور GitHub:', cleanFolder, error);
+        }
       }
+
+      return [];
     }
 
-   async function fetchFolderImages(folderName, fallback = []) {
-  if (fallback.length) {
-    return uniqueArray(fallback);
-  }
+    async function fetchFolderImages(folderName, fallback = []) {
+      const cleanFolder = folderName.replace(/^\/+|\/+$/g, '');
 
-  const cleanFolder = folderName.replace(/^\/+|\/+$/g, '');
-  return await discoverLocalImages(cleanFolder);
-}
+      const githubImages = await fetchGitHubFolderImages(cleanFolder);
+      if (githubImages.length) return githubImages;
+
+      const localImages = await discoverLocalImages(cleanFolder);
+      if (localImages.length) return localImages;
+
+      const validFallback = await Promise.all(uniqueArray(fallback).map(imageExists));
+      return validFallback.filter(Boolean);
+    }
+
+    function createGalleryItem(src, index, altPrefix) {
+      const item = document.createElement('figure');
+      item.className = 'gallery-item';
+
+      const image = document.createElement('img');
+      image.src = src;
+      image.alt = `${altPrefix} ${index + 1}`;
+      image.loading = index < 4 ? 'eager' : 'lazy';
+      image.decoding = 'async';
+
+      item.appendChild(image);
+      return item;
+    }
+
     function renderTopGallery(images) {
       const target = document.getElementById('topGallery');
       if (!target) return;
+
       target.innerHTML = '';
+      target.style.width = '';
 
       if (!images.length) {
         target.style.width = '100%';
-        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags1. تأكد أن المستودع الصحيح مضبوط في APP_CONFIG.github وأن المجلد موجود داخل الجذر.</div>';
+        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags1. تأكد أن المجلد موجود داخل الجذر وأن أسماء الصور صحيحة.</div>';
         return;
       }
 
-      const duplicated = [...images, ...images, ...images, ...images];
-      const fragment = document.createDocumentFragment();
+      const trackOne = document.createElement('div');
+      const trackTwo = document.createElement('div');
 
-      duplicated.forEach((src, index) => {
-        const item = document.createElement('figure');
-        item.className = 'gallery-item';
+      trackOne.className = 'gallery-track';
+      trackTwo.className = 'gallery-track';
+      trackTwo.setAttribute('aria-hidden', 'true');
 
-        const image = document.createElement('img');
-        image.src = src;
-        image.alt = `صورة من الملف البصري ${index + 1}`;
-        image.loading = 'lazy';
-
-        item.appendChild(image);
-        fragment.appendChild(item);
+      images.forEach((src, index) => {
+        trackOne.appendChild(createGalleryItem(src, index, 'صورة من الملف البصري'));
+        trackTwo.appendChild(createGalleryItem(src, index, 'صورة من الملف البصري'));
       });
 
-      target.appendChild(fragment);
+      target.appendChild(trackOne);
+      target.appendChild(trackTwo);
     }
 
     function renderBottomGallery(images) {
@@ -1621,7 +1734,8 @@ bottomFallback: [
         const image = document.createElement('img');
         image.src = src;
         image.alt = `عمل من أعمال سدن استديو ${index + 1}`;
-        image.loading = 'lazy';
+        image.loading = index < 4 ? 'eager' : 'lazy';
+        image.decoding = 'async';
 
         card.appendChild(image);
         fragment.appendChild(card);
