@@ -1218,6 +1218,77 @@
         transform: none !important;
       }
     }
+
+    .pdf-work-card {
+  aspect-ratio: auto;
+  min-height: 360px;
+  background: var(--card-gradient);
+}
+
+.pdf-card-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+}
+
+.pdf-preview {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 26px 26px 0 0;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(195,208,69,0.16);
+}
+
+.pdf-preview iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #111;
+}
+
+.pdf-card-content {
+  padding: 20px 22px 24px;
+}
+
+.pdf-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #000;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.pdf-card-content h3 {
+  color: var(--color-white);
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.pdf-card-content p {
+  color: var(--color-text-soft);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 640px) {
+  .pdf-work-card {
+    min-height: 320px;
+  }
+
+  .pdf-preview {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+    
   </style>
 </head>
 <body>
@@ -1719,34 +1790,94 @@
       target.appendChild(trackTwo);
     }
 
-    function renderBottomGallery(images) {
-      const target = document.getElementById('bottomGallery');
-      if (!target) return;
-      target.innerHTML = '';
+const PROJECT_PDFS = [
+  {
+    order: 1,
+    title: 'اطلالة الندى',
+    pdfUrl: 'https://drive.google.com/file/d/118jWcXCCzcVAdKPAA30rKXsWV0326TOF/view?usp=drive_link'
+  },
+  {
+    order: 2,
+    title: 'تطوير أفكار الطاقة',
+    pdfUrl: 'https://drive.google.com/file/d/1DHK9pGz5W-zMBIjNZOvsFX7dTACVNN-H/view?usp=drive_link'
+  }
+];
 
-      if (!images.length) {
-        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags2. تأكد أن المستودع الصحيح مضبوط في APP_CONFIG.github وأن المجلد موجود داخل الجذر.</div>';
-        return;
-      }
+function getDriveFileId(url = '') {
+  const patterns = [
+    /\/file\/d\/([^/]+)/,
+    /id=([^&]+)/,
+    /\/d\/([^/]+)/
+  ];
 
-      const fragment = document.createDocumentFragment();
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match && match[1]) return match[1];
+  }
 
-      images.forEach((src, index) => {
-        const card = document.createElement('figure');
-        card.className = 'work-card reveal visible';
+  return '';
+}
 
-        const image = document.createElement('img');
-        image.src = src;
-        image.alt = `عمل من أعمال سدن استديو ${index + 1}`;
-        image.loading = index < 4 ? 'eager' : 'lazy';
-        image.decoding = 'async';
+function buildPdfPreviewUrl(pdfUrl) {
+  const fileId = getDriveFileId(pdfUrl);
+  if (!fileId) return pdfUrl;
+  return `https://drive.google.com/file/d/${fileId}/preview`;
+}
 
-        card.appendChild(image);
-        fragment.appendChild(card);
-      });
+function buildPdfViewUrl(pdfUrl) {
+  const fileId = getDriveFileId(pdfUrl);
+  if (!fileId) return pdfUrl;
+  return `https://drive.google.com/file/d/${fileId}/view`;
+}
 
-      target.appendChild(fragment);
-    }
+function renderBottomGallery() {
+  const target = document.getElementById('bottomGallery');
+  if (!target) return;
+
+  target.innerHTML = '';
+
+  const projects = [...PROJECT_PDFS]
+    .filter(project => project.pdfUrl)
+    .sort((a, b) => Number(a.order || 999) - Number(b.order || 999));
+
+  if (!projects.length) {
+    target.innerHTML = '<div class="empty-state">لم تتم إضافة ملفات PDF بعد.</div>';
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+
+  projects.forEach((project, index) => {
+    const card = document.createElement('article');
+    card.className = 'work-card pdf-work-card reveal visible';
+
+    const previewUrl = buildPdfPreviewUrl(project.pdfUrl);
+    const viewUrl = buildPdfViewUrl(project.pdfUrl);
+
+    card.innerHTML = `
+      <a class="pdf-card-link" href="${viewUrl}" target="_blank" rel="noopener" aria-label="${project.title}">
+        <div class="pdf-preview">
+          <iframe
+            src="${previewUrl}"
+            title="${project.title}"
+            loading="${index < 2 ? 'eager' : 'lazy'}"
+            referrerpolicy="no-referrer"
+          ></iframe>
+        </div>
+
+        <div class="pdf-card-content">
+          <span class="pdf-badge">PDF</span>
+          <h3>${project.title || 'مشروع بدون اسم'}</h3>
+          <p>اضغط لعرض الملف التعريفي للمشروع</p>
+        </div>
+      </a>
+    `;
+
+    fragment.appendChild(card);
+  });
+
+  target.appendChild(fragment);
+}
 
     function setupReveal() {
       const elements = document.querySelectorAll('.reveal');
@@ -1769,14 +1900,11 @@
     }
 
     async function initGalleries() {
-      const [topImages, bottomImages] = await Promise.all([
-        fetchFolderImages(APP_CONFIG.topFolder, APP_CONFIG.topFallback),
-        fetchFolderImages(APP_CONFIG.bottomFolder, APP_CONFIG.bottomFallback)
-      ]);
+  const topImages = await fetchFolderImages(APP_CONFIG.topFolder, APP_CONFIG.topFallback);
 
-      renderTopGallery(topImages);
-      renderBottomGallery(bottomImages);
-    }
+  renderTopGallery(topImages);
+  renderBottomGallery();
+}
 
     setupLinks();
     setupReveal();
