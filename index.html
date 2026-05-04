@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -656,7 +657,7 @@
     }
 
     /* ------------------------------
-       Top Gallery | imags1
+       Top Gallery | imags1 - صفّين متعاكسين
        ------------------------------ */
     .gallery-shell {
       padding: 18px;
@@ -664,16 +665,29 @@
       width: 100%;
       max-width: 100%;
       direction: ltr;
+      display: grid;
+      gap: 16px;
+    }
+
+    .gallery-row {
+      overflow: hidden;
+      width: 100%;
+      max-width: 100%;
     }
 
     .gallery-marquee {
       display: flex;
       width: max-content;
       will-change: transform;
-      animation: marqueeMove var(--top-gallery-speed) linear infinite;
+      animation: marqueeMoveLeft var(--top-gallery-speed) linear infinite;
     }
 
-    .gallery-marquee:hover {
+    .gallery-row.is-reverse .gallery-marquee {
+      animation-name: marqueeMoveRight;
+      transform: translate3d(-50%, 0, 0);
+    }
+
+    .gallery-row:hover .gallery-marquee {
       animation-play-state: paused;
     }
 
@@ -684,25 +698,33 @@
       flex: 0 0 auto;
     }
 
-    @keyframes marqueeMove {
-      from {
-        transform: translate3d(0, 0, 0);
-      }
-      to {
-        transform: translate3d(-50%, 0, 0);
-      }
+    @keyframes marqueeMoveLeft {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(-50%, 0, 0); }
+    }
+
+    @keyframes marqueeMoveRight {
+      from { transform: translate3d(-50%, 0, 0); }
+      to { transform: translate3d(0, 0, 0); }
     }
 
     .gallery-item {
-  flex: 0 0 auto;
-  width: min(581px, calc((100vw - 72px) / 2));
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 28px;
-  border: 1px solid rgba(195,208,69,0.12);
-  background: rgba(255,255,255,0.03);
-  box-shadow: var(--shadow-md);
-}
+      flex: 0 0 auto;
+      width: min(520px, calc((100vw - 72px) / 2));
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid rgba(195,208,69,0.12);
+      background: rgba(255,255,255,0.03);
+      box-shadow: var(--shadow-md);
+    }
+
+    .gallery-item-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: inherit;
+    }
 
     .gallery-item img {
       width: 100%;
@@ -1176,6 +1198,7 @@
       .gallery-shell {
         padding: 10px;
         border-radius: 24px;
+        gap: 12px;
       }
 
       .gallery-track {
@@ -1184,9 +1207,9 @@
       }
 
       .gallery-item {
-  width: calc(100vw - 52px);
-  border-radius: 28px;
-}
+        width: calc(100vw - 52px);
+        border-radius: 28px;
+      }
 
       .services-grid,
       .why-grid,
@@ -1567,6 +1590,23 @@
       ]
     };
 
+    /*
+      أضف صور الشريط العلوي هنا يدويًا.
+      row: رقم الشريط 1 أو 2
+      order: ترتيب الصورة داخل الشريط
+      imageUrl: رابط الصورة أو مسارها داخل GitHub مثل ./imags1/name.jpg
+      linkUrl: الرابط عند الضغط على الصورة، ويمكن تركه فارغًا ''
+    */
+    const TOP_GALLERY_IMAGES = [
+      { row: 1, order: 1, title: 'مخطط سكني', imageUrl: 'https://i.ibb.co/whZL60hN/01.jpg', linkUrl: '' },
+      { row: 1, order: 1, title: 'مخطط سكني', imageUrl: 'https://i.ibb.co/whZL60hN/01.jpg', linkUrl: '' },
+      { row: 1, order: 1, title: 'مخطط سكني', imageUrl: 'https://i.ibb.co/whZL60hN/01.jpg', linkUrl: '' },
+
+      { row: 2, order: 1, title: 'عمل بصري', imageUrl: 'https://i.ibb.co/gbgKqzPQ/06.jpg', linkUrl: '' },
+      { row: 2, order: 1, title: 'عمل بصري', imageUrl: 'https://i.ibb.co/gbgKqzPQ/06.jpg', linkUrl: '' },
+      { row: 2, order: 1, title: 'عمل بصري', imageUrl: 'https://i.ibb.co/gbgKqzPQ/06.jpg', linkUrl: '' },
+    ];
+
     const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif'];
     const repoTreeCache = new Map();
 
@@ -1753,18 +1793,56 @@
       return validFallback.filter(Boolean);
     }
 
-    function createGalleryItem(src, index, altPrefix) {
+    function normalizeTopGalleryImages(images = []) {
+      return images
+        .filter(item => item && item.imageUrl)
+        .map((item, index) => ({
+          row: Number(item.row || 1),
+          order: Number(item.order || index + 1),
+          title: item.title || `صورة من الملف البصري ${index + 1}`,
+          imageUrl: item.imageUrl,
+          linkUrl: item.linkUrl || ''
+        }))
+        .sort((a, b) => {
+          if (a.row !== b.row) return a.row - b.row;
+          return a.order - b.order;
+        });
+    }
+
+    function createGalleryItem(project, index, altPrefix) {
       const item = document.createElement('figure');
       item.className = 'gallery-item';
 
+      const wrapper = document.createElement(project.linkUrl ? 'a' : 'div');
+      wrapper.className = 'gallery-item-link';
+
+      if (project.linkUrl) {
+        wrapper.href = project.linkUrl;
+        wrapper.target = '_blank';
+        wrapper.rel = 'noopener';
+        wrapper.setAttribute('aria-label', project.title);
+      }
+
       const image = document.createElement('img');
-      image.src = src;
-      image.alt = `${altPrefix} ${index + 1}`;
-      image.loading = 'eager';
+      image.src = project.imageUrl;
+      image.alt = project.title || `${altPrefix} ${index + 1}`;
+      image.loading = index < 6 ? 'eager' : 'lazy';
       image.decoding = 'async';
 
-      item.appendChild(image);
+      wrapper.appendChild(image);
+      item.appendChild(wrapper);
       return item;
+    }
+
+    function buildGalleryTrack(items, altPrefix) {
+      const track = document.createElement('div');
+      track.className = 'gallery-track';
+
+      items.forEach((project, index) => {
+        track.appendChild(createGalleryItem(project, index, altPrefix));
+      });
+
+      return track;
     }
 
     function renderTopGallery(images) {
@@ -1774,26 +1852,40 @@
       target.innerHTML = '';
       target.style.width = '';
 
-      if (!images.length) {
+      const normalizedImages = normalizeTopGalleryImages(images);
+
+      if (!normalizedImages.length) {
         target.style.width = '100%';
-        target.innerHTML = '<div class="empty-state">تعذر العثور على صور في مجلد imags1. تأكد أن المجلد موجود داخل الجذر وأن أسماء الصور صحيحة.</div>';
+        target.innerHTML = '<div class="empty-state">لم تتم إضافة صور للشريط العلوي بعد.</div>';
         return;
       }
 
-      const trackOne = document.createElement('div');
-      const trackTwo = document.createElement('div');
+      const rowOneImages = normalizedImages.filter(item => item.row === 1);
+      const rowTwoImages = normalizedImages.filter(item => item.row === 2);
 
-      trackOne.className = 'gallery-track';
-      trackTwo.className = 'gallery-track';
-      trackTwo.setAttribute('aria-hidden', 'true');
+      const rows = [
+        { className: 'gallery-row', images: rowOneImages, label: 'الشريط الأول' },
+        { className: 'gallery-row is-reverse', images: rowTwoImages.length ? rowTwoImages : [...rowOneImages].reverse(), label: 'الشريط الثاني' }
+      ];
 
-      images.forEach((src, index) => {
-        trackOne.appendChild(createGalleryItem(src, index, 'صورة من الملف البصري'));
-        trackTwo.appendChild(createGalleryItem(src, index, 'صورة من الملف البصري'));
+      rows.forEach((row) => {
+        if (!row.images.length) return;
+
+        const rowElement = document.createElement('div');
+        rowElement.className = row.className;
+
+        const marquee = document.createElement('div');
+        marquee.className = 'gallery-marquee';
+
+        const trackOne = buildGalleryTrack(row.images, row.label);
+        const trackTwo = buildGalleryTrack(row.images, row.label);
+        trackTwo.setAttribute('aria-hidden', 'true');
+
+        marquee.appendChild(trackOne);
+        marquee.appendChild(trackTwo);
+        rowElement.appendChild(marquee);
+        target.appendChild(rowElement);
       });
-
-      target.appendChild(trackOne);
-      target.appendChild(trackTwo);
     }
 
 const PROJECT_PDFS = [
@@ -1926,11 +2018,9 @@ function renderBottomGallery() {
     }
 
     async function initGalleries() {
-  const topImages = await fetchFolderImages(APP_CONFIG.topFolder, APP_CONFIG.topFallback);
-
-  renderTopGallery(topImages);
-  renderBottomGallery();
-}
+      renderTopGallery(TOP_GALLERY_IMAGES);
+      renderBottomGallery();
+    }
 
     setupLinks();
     setupReveal();
